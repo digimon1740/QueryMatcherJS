@@ -31,6 +31,8 @@ var QueryMatcher = (function () {
 			var field = fields[fields.length - 1];
 
 			var lastChainObj = this.objectUtil.getLastChainObjectValueByCommaSeparator(filterField);
+			if (!lastChainObj)
+				return;
 			compareValue = lastChainObj[field];
 		}
 
