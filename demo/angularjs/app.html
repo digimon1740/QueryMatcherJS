@@ -2,15 +2,18 @@
 <html lang="en" data-framework="angularjs">
 <head>
 	<meta charset="UTF-8">
-	<title>AngularJs + QueryMatcher</title>
-	<link rel="stylesheet" href="./css/bootstrap.min.css">
-	<link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+	<title>AngularJS + QueryMatcher</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
 </head>
 <body ng-app="helloApp">
 <div class="wrapper" ng-controller="main">
 	<header id="header" class="bg-primary">
-		<h1>AngularJs + QueryMatcher Demo</h1>
+		<h1>AngularJS + QueryMatcher Demo</h1>
 	</header>
+	<section>
+		<a href="https://github.com/digimon1740/QueryMatcherJS">Go QueryMatcher Repository</a>
+	</section>
 	<section id="filters">
 		<select ng-model="condition.gender">
 			<option value="all">gender</option>
@@ -31,21 +34,23 @@
 				<th>name</th>
 				<th>gender</th>
 				<th>job</th>
+				<th>spouse</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr ng-repeat="person in filteredPersons = (persons | filter:filterPersons)">
-				<td>{{person.first +' '+ person.last}}</td>
+				<td>{{person.fullName}}</td>
 				<td>{{person.gender}}</td>
 				<td>{{person.job}}</td>
+				<td>{{person.spouse.fullName}}</td>
 			</tr>
 			</tbody>
 		</table>
 	</div>
 </div>
-<script src="./js/lib/jquery-3.1.1.min.js"></script>
-<script src="./js/lib/bootstrap.min.js"></script>
-<script src="./js/lib/angular.min.js"></script>
+<script src="js/lib/jquery-3.1.1.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/angular.min.js"></script>
 <script src="js/objectUtils.js"></script>
 <script src="js/queryMatcher.js"></script>
 <script>
@@ -59,25 +64,40 @@
 			last: 'Lincoln',
 			fullName: 'Abraham Lincoln',
 			gender: 'male',
-			job: 'presidents'
+			job: 'presidents',
+			spouse: {
+				first: 'Mary Todd',
+				last: 'Lincoln',
+				fullName: 'Mary Todd Lincoln',
+			}
 		}, {
 			first: 'Donald',
 			last: 'Trump',
 			fullName: 'Donald Trump',
 			gender: 'male',
-			job: 'presidents'
+			job: 'presidents',
+			spouse: {
+				first: 'Melanija Knavs',
+				last: 'Trump',
+				fullName: 'Melanija Knavs Trump',
+			}
 		}, {
 			first: 'Mariah',
 			last: 'Carey',
 			fullName: 'Mariah Carey',
 			gender: 'female',
-			job: 'singer'
+			job: 'singer',
+			spouse: {
+				first: 'Nick',
+				last: 'Cannon',
+				fullName: 'Nick Cannon',
+			}
 		}, {
 			first: 'Taylor',
 			last: 'Swift',
 			fullName: 'Taylor Swift',
 			gender: 'female',
-			job: 'singer'
+			job: 'singer',
 		}, {
 			first: 'Jason',
 			last: 'Mraz',
@@ -104,8 +124,8 @@
 			};
 
 			var orClause = {
-				orFields: ['first', 'last', 'fullName', 'gender', 'job'],
-				orValues: [query, query, query, query, query]
+				orFields: ['first', 'last', 'fullName', 'gender', 'job', 'spouse.first', 'spouse.last', 'spouse.fullName'],
+				orValues: [query, query, query, query, query, query, query, query]
 			};
 
 			var queryMatcher = new QueryMatcher(person);
